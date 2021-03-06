@@ -50,7 +50,6 @@ jobs:
         run: |
           awk '/GEM/{f=1}f' Gemfile.lock > Gemfile.lock
           cp Gemfile.lock Gemfile.lock.backup
-          cat Gemfile.lock.backup
 
       - uses: actions/cache@v2
         with:
@@ -64,10 +63,6 @@ jobs:
         env:
           ImageOS: ubuntu18
 
-      - name: 'Check if Gemfile changed 1'
-        run: |
-          diff Gemfile.lock Gemfile.lock.backup || true
-
       - name: 'Setup OS'
         run: |
           sudo apt-get -qq update
@@ -80,7 +75,8 @@ jobs:
 
       - name: 'Check if Gemfile changed 2'
         run: |
-          diff Gemfile.lock Gemfile.lock.backup
+          ls -la Gemfile*
+          git diff Gemfile.lock Gemfile.lock.backup
 
       - uses: actions/cache@v2
         with:
