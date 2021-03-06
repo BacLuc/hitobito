@@ -46,6 +46,7 @@ jobs:
       - name: 'Setup OS'
         run: |
           sudo apt-get -qq update
+          sudo apt-get purge ruby-full
           sudo apt-get install sphinxsearch gawk
 
       - name: 'Checkout'
