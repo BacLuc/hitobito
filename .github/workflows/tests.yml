@@ -69,12 +69,21 @@ jobs:
           sed -i '/hitobito_generic/d' Gemfile.lock
           git diff Gemfile.lock || true
 
-      - name: 'Setup ruby, run webpack, run tests'
+      - name: 'Setup ruby'
         uses: ruby/setup-ruby@v1.59.1
         with:
           bundler-cache: true
         env:
           ImageOS: ubuntu18
 
-      - run: |
-          bundle exec rake webpacker:compile db:create ci --trace
+      - name: 'Export installed bundle path'
+        run: |
+          export BUNDLE=/opt/hostedtoolcache/Ruby/$(cat .ruby-version)/x64/bin/bundle
+
+      - name: 'Run Webpacker'
+        run: |
+          $BUNDLE exec rake webpacker:compile
+
+      - name: 'Run Lint and Tests'
+        run: |
+          $BUNDLE exec rake db:create ci --trace
