@@ -46,16 +46,16 @@ jobs:
       - name: 'Setup OS'
         run: |
           sudo apt-get -qq update
-          sudo apt-get install sphinxsearch
+          sudo apt-get install sphinxsearch gawk
 
       - name: 'Checkout'
         uses: actions/checkout@v2
 
       - name: 'Fix Gemfile.lock for CI'
         run: |
-          awk '/GEM/{f=1}f' Gemfile.lock > Gemfile.lock
-          sed -i 's/\\ \\ ruby$/\\ \\ x86_64-linux/' Gemfile.lock
-          git diff Gemfile.lock
+          gawk -i inplace '/GEM/{f=1}f' Gemfile.lock
+          gawk -i inplace '{gsub("ruby$", "x86_64-linux", $0); print}' Gemfile.lock
+          git diff Gemfile.lock || true
 
       - name: 'Set up Ruby'
         uses: ruby/setup-ruby@v1.59.1
