@@ -46,11 +46,15 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
 
-      - name: 'Remove PATH from Gemfile.lock'
+      - name: 'Set up Ruby'
+        uses: ruby/setup-ruby@v1.59.1
+        env:
+          ImageOS: ubuntu18
+
+      - name: 'Setup OS'
         run: |
-          awk '/GEM/{f=1}f' Gemfile.lock > Gemfile.lock
-          cp Gemfile.lock Gemfile.lock.backup
-          cat Gemfile.lock.backup
+          sudo apt-get -qq update
+          sudo apt-get install sphinxsearch
 
       - uses: actions/cache@v2
         with:
@@ -59,28 +63,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
 
-      - name: 'Set up Ruby'
-        uses: ruby/setup-ruby@v1.59.1
-        env:
-          ImageOS: ubuntu18
-
-      - name: 'Check if Gemfile changed 1'
-        run: |
-          diff Gemfile.lock Gemfile.lock.backup || true
-
-      - name: 'Setup OS'
-        run: |
-          sudo apt-get -qq update
-          sudo apt-get install sphinxsearch
-
       - name: 'Bundle install'
         run: |
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
-
-      - name: 'Check if Gemfile changed 2'
-        run: |
-          diff Gemfile.lock Gemfile.lock.backup
+          bundle install --jobs 4 --retry 3 --path vendor/bundle
 
       - uses: actions/cache@v2
         with:
