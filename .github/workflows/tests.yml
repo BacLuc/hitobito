@@ -75,5 +75,6 @@ jobs:
           bundler-cache: true
         env:
           ImageOS: ubuntu18
-        run: |
+
+      - run: |
           bundle exec rake webpacker:compile db:create ci --trace
