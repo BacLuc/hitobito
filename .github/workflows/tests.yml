@@ -56,16 +56,9 @@ jobs:
           sudo apt-get -qq update
           sudo apt-get install sphinxsearch
 
-      - uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-
       - name: 'Bundle install'
         run: |
-          bundle install --jobs 4 --retry 3 --path vendor/bundle
+          bundle install --jobs 4 --retry 3
 
       - uses: actions/cache@v2
         with:
