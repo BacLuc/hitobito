@@ -79,7 +79,9 @@ jobs:
 
       - name: 'Run Webpacker'
         run: |
-          bundle exec rake webpacker:compile
+          ls -l vendor/bundle/*/*/*
+          echo $PATH
+          bundle exec rake webpacker:compile --trace
 
       - name: 'Run Lint and Tests'
         run: |
