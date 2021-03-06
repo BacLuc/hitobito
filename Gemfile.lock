@@ -679,6 +679,7 @@ DEPENDENCIES
   rails-erd
   rails-i18n
   rails_autolink
+  rake (= 13.0.1)
   rdoc-tags
   redcarpet
   remotipart
