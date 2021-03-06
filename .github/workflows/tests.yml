@@ -55,10 +55,18 @@ jobs:
         run: |
           sudo apt-get -qq update
           sudo apt-get install sphinxsearch
+          ruby -v
+          bundle -v
+          rake -v
+          node -v
+          yarn -v
 
       - name: 'Bundle install'
         run: |
           bundle install --jobs 4 --retry 3
+
+      - name: 'Make changes to Gemfile.lock transparent'
+        run: git diff Gemfile.lock || true
 
       - uses: actions/cache@v2
         with:
