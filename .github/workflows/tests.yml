@@ -55,6 +55,7 @@ jobs:
         run: |
           gawk -i inplace '/GEM/{f=1}f' Gemfile.lock
           gawk -i inplace '{gsub("ruby$", "x86_64-linux", $0); print}' Gemfile.lock
+          sed -i '/hitobito_generic/d' Gemfile.lock
           git diff Gemfile.lock || true
 
       - name: 'Set up Ruby'
