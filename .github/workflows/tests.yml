@@ -50,6 +50,7 @@ jobs:
         run: |
           awk '/GEM/{f=1}f' Gemfile.lock > Gemfile.lock
           cp Gemfile.lock Gemfile.lock.backup
+          cat Gemfile.lock.backup
 
       - uses: actions/cache@v2
         with:
