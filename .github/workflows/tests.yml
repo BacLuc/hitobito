@@ -76,7 +76,7 @@ jobs:
       - name: 'Check if Gemfile changed 2'
         run: |
           ls -la Gemfile*
-          git diff Gemfile.lock Gemfile.lock.backup
+          git diff --exit-code HEAD:Gemfile.lock Gemfile.lock.backup
 
       - uses: actions/cache@v2
         with:
