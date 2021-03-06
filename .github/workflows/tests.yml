@@ -76,13 +76,19 @@ jobs:
         env:
           ImageOS: ubuntu18
 
+      # @see https://github.com/Shopify/bootsnap/issues/302
+      - name: 'clear bootsnap load cache after bundle install'
+        run: |
+          rm -rf tmp/cache/bootsnap-load-path-cache
+          rm -rf tmp/cache/bootsnap-load-combile-cache
+
       - name: 'Export installed bundle path'
         run: |
           export BUNDLE=/opt/hostedtoolcache/Ruby/$(cat .ruby-version)/x64/bin/bundle
 
       - name: 'Run Webpacker'
         run: |
-          $BUNDLE exec rake webpacker:compile
+          $BUNDLE exec rake webpacker:compile --trace
 
       - name: 'Run Lint and Tests'
         run: |
