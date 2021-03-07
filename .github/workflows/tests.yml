@@ -60,6 +60,13 @@ jobs:
           echo "node version: $(node -v)"
           echo "yarn version: $(yarn -v)"
 
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-ruby-bundle-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-ruby-bundle-
+
       - name: 'Bundle install'
         run: |
           bundle install --jobs 4 --retry 3 --path vendor/bundle
